@@ -1,2 +1,57 @@
-git push origin main
-kjkjbjl
+IN EC2 I have to uh make my server as a private one. Correct? So what kind of cconfiguration I can do to make my server as a private?"
+1.Launvh in private subnet
+2.no public/elastic ip
+3.No igw in Rote table
+"And if I do not attach net gateway with my uh route table will it be private or not?
+It still private-we only use to get access internet for outbound .
+
+
+So if I have to create a private subnet let me go with the same question if I have to create a private subnet why do we require net? I can create private subnet without net as well or private issue to"
+Yes - we can cretae vpc privatenet without vpc
+
+Now I want to make this public server as a private one and I do not have to touch its route table. So how can I do?
+remove elastic/public ip
+make sure security groups have strict access(to block internet access)_
+
+So how will you switch this uh server from first to the second keeping your IP address and your DNS the same."
+to keep same dns/ip use elastic ip.->deattach -> re attach
+
+o what are the parameters based on which you can create this autoscaling group?
+maximum capacity
+minimum capacity
+desired capacity
+lanch template configuration
+scaling policy
+health check
+
+
+what will be the parameter based on which you will do? Like there should be some parameter based on this factor.
+metrics like-cpu /memory utilisation
+latency'
+cloud watch metrics
+rewuest in (ALB)
+qeee depth(sqs)
+
+What are the different kind of policies we can create in autoscaling?" (9:29 - 9:30)
+Simple scaling 
+step scaling
+Target tracking
+predictive scaling
+scheduled scaling
+
+Have you heard about dynamic scaling policy?"
+adjust capacity automaticalluy according to metrics
+
+talk about S3 service, so buckets are regional or global?"
+bucket names - global
+data -regionally stored
+
+o I have to move the all S3 data from AWS account A to this shared AWS account. How can I do?"
+Replication rule
+manual(CLI)
+s3 batch oprtsions
+dtaa sync
+
+
+
+
