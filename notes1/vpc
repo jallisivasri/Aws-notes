@@ -51,6 +51,9 @@ Replication rule
 manual(CLI)
 s3 batch oprtsions
 dtaa sync
+Repliaction 
+manual s3 batch operations
+data sync
 
 
 
