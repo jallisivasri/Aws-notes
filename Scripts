@@ -185,3 +185,23 @@ Reason: Docker containers do not auto-start by default
 Fix: Used Docker restart policy
 Command: docker run -d --restart always --name app -p 3000:3000 image_name
 
+
+Interview-ready explanation (memorize this)
+
+“Initially my pipeline deployed the container successfully, but it wasn’t resilient to EC2 restarts. I improved it by adding Docker’s restart policy and making the deployment stage idempotent, ensuring zero downtime after server reboots.”
+
+📝 Add THIS to your Personal DevOps Notes
+Improvement: Made Docker deployment resilient
+Why: Containers stop after EC2 reboot by default
+Fix: Used Docker restart policy (--restart always)
+Result: App auto-starts after reboot
+
+
+Problem: Minikube failed to start on Windows
+Reason: Docker container could not reach registry.k8s.io
+Fix: Deleted minikube, restarted Docker Desktop, used stable Kubernetes version
+Command:
+minikube delete --all --purge
+minikube start --driver=docker --kubernetes-version=v1.29.0
+
+
