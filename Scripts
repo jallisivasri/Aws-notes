@@ -179,3 +179,9 @@ Most DevOps issues are configuration, not code
 ⭐ INTERVIEW GOLD LINE (MEMORIZE)
 
 “Whenever I faced issues, I analyzed Jenkins logs, verified GitHub commits, and fixed configuration or caching problems systematically.”
+
+Problem: App not accessible on port 3000 after EC2 restart
+Reason: Docker containers do not auto-start by default
+Fix: Used Docker restart policy
+Command: docker run -d --restart always --name app -p 3000:3000 image_name
+
