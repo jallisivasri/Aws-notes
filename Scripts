@@ -1,1 +1,181 @@
+Automated build & test pipeline using GitHub Actions Dockerized a Node.js application
+GitHub (code)
+   ↓
+Jenkins (robot server)
+   ↓
+Docker build
+   ↓
+Docker Hub
+   ↓
+AWS EC2 (production server)
 
+You push code
+   ↓
+GitHub webhook triggers Jenkins
+   ↓
+Jenkins pulls code
+   ↓
+Docker image built
+   ↓
+Image pushed to Docker Hub
+   ↓
+EC2 runs new container
+
+1.create node.js app
+2.
+Personal DevOps Notes – Jenkins + Docker + AWS
+File: jenkins-docker-notes.txt
+Problem 1: EC2 public IP changed after restart
+
+Reason: EC2 public IP is dynamic by default
+Fix: Updated Jenkins URL and used new IP
+Command / Action:
+
+Checked new public IP in AWS EC2 dashboard
+
+Updated Jenkins access URL
+
+Problem 2: Jenkins service not starting
+
+Reason: Jenkins service was stopped after EC2 restart
+Fix: Started and enabled Jenkins service
+Command:
+
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+sudo systemctl status jenkins
+
+Problem 3: Forgot Jenkins admin password / Manage Users not visible
+
+Reason: Jenkins security not properly configured
+Fix: Jenkins was running in unsecured mode
+Command / Action:
+
+Logged in without authentication
+
+Opened Manage Jenkins → Configure Global Security
+
+Enabled security properly
+
+Problem 4: Jenkins always shows sign-in page
+
+Reason: Previous security config cached
+Fix: Verified Jenkins security settings and restarted Jenkins
+Command:
+
+sudo systemctl restart jenkins
+
+Problem 5: SSH login to EC2 failed (Permission denied)
+
+Reason: Wrong key path or key name
+Fix: Used correct .pem key file
+Command:
+
+ssh -i correct-key.pem ubuntu@<EC2_PUBLIC_IP>
+
+Problem 6: Git commands failed – “not a git repository”
+
+Reason: Commands executed outside Git project directory
+Fix: Navigated to correct project folder
+Command:
+
+cd cicd-node-app
+git status
+
+Problem 7: Jenkins build failed – Jenkinsfile not found
+
+Reason: Jenkinsfile missing or wrong file name
+Fix: Created file named exactly Jenkinsfile (no .txt)
+Command:
+
+git add Jenkinsfile
+git commit -m "Add Jenkinsfile"
+git push origin main
+
+Problem 8: Jenkinsfile pushed as Jenkinsfile.txt
+
+Reason: File saved incorrectly on Windows
+Fix: Renamed file to Jenkinsfile
+Command:
+
+mv Jenkinsfile.txt Jenkinsfile
+git commit -m "Fix Jenkinsfile name"
+git push
+
+Problem 9: Docker build failed – invalid image name
+
+Reason: Placeholder YOUR_DOCKER_USERNAME used
+Fix: Replaced with actual Docker Hub username (lowercase)
+Command:
+
+docker build -t jallisivasri703/cicd-node-app .
+
+Problem 10: Jenkins still using old Docker command
+
+Reason: Jenkins workspace cached old Jenkinsfile
+Fix: Cleared Jenkins workspace manually
+Command:
+
+sudo rm -rf /var/lib/jenkins/workspace/nodejs-cicd/*
+sudo systemctl restart jenkins
+
+Problem 11: “Wipe out workspace” option not visible
+
+Reason: Jenkins UI limitation / permissions
+Fix: Manually deleted workspace from server
+Command:
+
+cd /var/lib/jenkins/workspace
+sudo rm -rf nodejs-cicd
+
+Problem 12: Code changes not reflected in Jenkins build
+
+Reason: Changes saved locally but not pushed to GitHub
+Fix: Committed and pushed code properly
+Command:
+
+git add .
+git commit -m "Update application"
+git push origin main
+
+Problem 13: Jenkins pipeline runs twice checkout
+
+Reason: Default SCM checkout + custom git stage
+Fix: Accepted behavior; not a blocking issue
+Note: Declarative pipeline auto-checks SCM
+
+Problem 14: Docker container already exists
+
+Reason: Previous container running
+Fix: Stopped and removed container before running new one
+Command:
+
+docker stop app || true
+docker rm app || true
+docker run -d --name app -p 3000:3000 jallisivasri703/cicd-node-app
+
+Problem 15: Application not accessible from browser
+
+Reason: EC2 Security Group missing port rule
+Fix: Opened port 3000 in inbound rules
+Action:
+
+AWS EC2 → Security Group → Add inbound rule
+
+Port: 3000 | Source: 0.0.0.0/0
+
+✅ Final Learning Summary
+
+Always check Jenkins console output
+
+GitHub is the source of truth
+
+Docker image names must be lowercase
+
+Jenkins workspace caching causes many issues
+
+Most DevOps issues are configuration, not code
+
+⭐ INTERVIEW GOLD LINE (MEMORIZE)
+
+“Whenever I faced issues, I analyzed Jenkins logs, verified GitHub commits, and fixed configuration or caching problems systematically.”
