@@ -204,4 +204,24 @@ Command:
 minikube delete --all --purge
 minikube start --driver=docker --kubernetes-version=v1.29.0
 
+Problem: App works locally but not deployable
+Reason: Image only exists locally
+Fix: Tagged and pushed image to Docker Hub
+Commands:
+docker tag node-app:latest jallisivasri703/node-app:latest
+docker push jallisivasri703/node-app:latest
+Problem: Need to deploy app on Kubernetes
+Reason: App must be orchestrated and scalable
+Fix: Created Deployment + NodePort Service
+Files:
+deployment.yaml
+service.yaml
+Commands:
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+minikube service node-app-service
+
+http://localhost:3000
+
+
 
